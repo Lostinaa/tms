@@ -79,11 +79,20 @@ async function seed() {
     is_completed: false,
   }).returning('id');
 
+  const [t9] = await db('tasks').insert({
+    title: 'Security Audit',
+    project_id: alphaId,
+    assignee_id: aliceId,
+    due_date: '2026-04-30',
+    is_completed: false,
+  }).returning('id');
+
   const t1Id = t1.id || t1;
   const t2Id = t2.id || t2;
   const t3Id = t3.id || t3;
   const t4Id = t4.id || t4;
   const t5Id = t5.id || t5;
+  const t9Id = t9.id || t9;
 
   // --- Subtasks for "Design database schema" ---
   await db('tasks').insert([
@@ -131,6 +140,9 @@ async function seed() {
     // "Deploy to staging" depends on both "Implement API" and "Write tests" (both incomplete → blocked)
     { task_id: t5Id, dependency_id: t3Id },
     { task_id: t5Id, dependency_id: t4Id },
+    // "Security Audit" depends on "Design DB" and "Implement API" (multiple blockages for Alice test)
+    { task_id: t9Id, dependency_id: t2Id },
+    { task_id: t9Id, dependency_id: t3Id },
     // Beta: "Write deployment docs" depends on "Setup CI/CD pipeline"
     { task_id: t8Id, dependency_id: t6Id },
     // Beta: "Configure monitoring" depends on "Setup CI/CD pipeline"
