@@ -1,0 +1,19 @@
+{
+  "name": "task-manager-backend",
+  "version": "1.0.0",
+  "description": "Task Manager with Dependencies - Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "migrate": "npx knex migrate:latest",
+    "seed": "node src/seed.js",
+    "setup": "npx knex migrate:latest && node src/seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "knex": "^3.1.0",
+    "better-sqlite3": "^11.6.0"
+  }
+}
